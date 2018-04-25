@@ -1,2 +1,3 @@
-FROM ubuntu:16.04
-ADD . /
+FROM nginx
+ADD index.html /usr/share/nginx/html/
+
