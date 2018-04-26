@@ -13,12 +13,6 @@ pipeline {
         sh 'docker build -t cpg47b/jenkins:${BUILD_NUMBER} .'
       }
     }
-    stage('Docker Login') {
-      agent any
-      steps {
-        sh 'docker login  -u cpg47b -p chhavi0709'
-      }
-    }
     stage('Docker Push') {
       agent any
       steps {
