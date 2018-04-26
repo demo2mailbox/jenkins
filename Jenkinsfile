@@ -3,12 +3,6 @@
 pipeline {
   agent none
   stages {
-    stage('Docker Info') {
-      agent any
-      steps {
-        sh 'docker info'
-      }
-    }
     stage('Docker Build Latest') {
       agent any
       steps {
