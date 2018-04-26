@@ -1,17 +1,44 @@
-node("docker") {
-    docker.withRegistry('<<your-docker-registry>>', '<<your-docker-registry-credentials-id>>') {
-    
-        git url: "<<your-git-repo-url>>", credentialsId: '<<your-git-credentials-id>>'
-    
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
-    
-        stage "build"
-        def app = docker.build "your-project-name"
-    
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
+#!groovy
+
+pipeline {
+  agent none
+  stages {
+    stage('Docker info') {
+      agent any
+      steps {
+        sh 'docker info'
+      }
     }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t cpg47b/jenkins:latest .'
+      }
+    }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t cpg47b/jenkins:${BUILD_NUMBER} .'
+      }
+    }
+    stage('Docker Login') {
+      agent any
+      steps {
+        sh 'docker login  -u cpg47b -p chhavi0709'
+      }
+    }
+    stage('Docker Push') {
+      agent any
+      steps {
+        sh 'docker push cpg47b/jenkins:${BUILD_NUMBER}'
+      }
+    }
+    stage('Docker Push') {
+      agent any
+      steps {
+        sh 'docker push cpg47b/jenkins:latest'
+      }
+    }
+  }
 }
+
