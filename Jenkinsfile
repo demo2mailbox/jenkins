@@ -1,5 +1,3 @@
-#!groovy
-
 pipeline {
   agent none
   stages {
@@ -24,14 +22,18 @@ pipeline {
     stage('Docker Push') {
       agent any
       steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
         sh 'docker push cpg47b/jenkins:${BUILD_NUMBER}'
       }
+     } 
     }
     stage('Docker Push Latest') {
       agent any
       steps {
         sh 'docker push cpg47b/jenkins:latest'
       }
+     
     }
   }
 }
