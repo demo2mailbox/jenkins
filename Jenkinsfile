@@ -3,13 +3,13 @@
 pipeline {
   agent none
   stages {
-    stage('Docker info') {
+    stage('Docker Info') {
       agent any
       steps {
         sh 'docker info'
       }
     }
-    stage('Docker Build') {
+    stage('Docker Build Latest') {
       agent any
       steps {
         sh 'docker build -t cpg47b/jenkins:latest .'
@@ -33,7 +33,7 @@ pipeline {
         sh 'docker push cpg47b/jenkins:${BUILD_NUMBER}'
       }
     }
-    stage('Docker Push') {
+    stage('Docker Push Latest') {
       agent any
       steps {
         sh 'docker push cpg47b/jenkins:latest'
