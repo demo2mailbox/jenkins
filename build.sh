@@ -1,6 +1,6 @@
 #!/bin/bash
-    docker info
-    pwd
+ #   docker info
+ #   pwd
     docker build -t cpg47b/jenkins-new:${BUILD_NUMBER} .
 #    docker images
     docker login -u cpg47b -p chhavi0709
